@@ -12,21 +12,21 @@ import (
 )
 
 type Project struct {
-	Key  string
-	Name string
+	Key  string `json:"key"`
+	Name string `json:"name"`
 }
 
 type Repository struct {
-	c *Client
+	c *Client `json:"-"`
 
-	Project     Project
-	Slug        string
-	Full_name   string
-	Description string
-	ForkPolicy  string
-	Type        string
-	Owner       map[string]interface{}
-	Links       map[string]interface{}
+	Project     Project                `json:"project"`
+	Slug        string                 `json:"slug"`
+	Full_name   string                 `json:"fullName"`
+	Description string                 `json:"description"`
+	ForkPolicy  string                 `json:"forkPolicy"`
+	Type        string                 `json:"type"`
+	Owner       map[string]interface{} `json:"owner"`
+	Links       map[string]interface{} `json:"links"`
 }
 
 type RepositoryFile struct {

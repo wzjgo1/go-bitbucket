@@ -65,17 +65,6 @@ And The API v1.0 covers resources that the v2.0 API and API v2.0 is yet to cover
 
 ## Development
 
-### Install dependencies
-
-It's using dep.
-
-```sh
-go get github.com/golang/dep/...
-git clone https://github.com/ktrysmt/go-bitbucket 
-cd ./go-bitbucket
-dep ensure 
-```
-
 ### How to testing
 
 Set your available user account to Global Env.
