@@ -21,10 +21,10 @@ type Repositories struct {
 }
 
 type RepositoriesRes struct {
-	Page    int32
-	Pagelen int32
-	Size    int32
-	Items   []Repository
+	Page    int32        `json:"page"`
+	Pagelen int32        `json:"pagelen"`
+	Size    int32        `json:"size"`
+	Items   []Repository `json:"items"`
 }
 
 func (r *Repositories) ListForAccount(ro *RepositoriesOptions) (*RepositoriesRes, error) {
