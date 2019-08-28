@@ -127,6 +127,33 @@ func (r *Repository) GetFileBlob(ro *RepositoryBlobOptions) (*RepositoryBlob, er
 	return &blob, nil
 }
 
+func (r *Repository) ListRefs(rbo *RepositoryBranchOptions) (*RepositoryBranches, error) {
+	params := url.Values{}
+	if rbo.Query != "" {
+		params.Add("q", rbo.Query)
+	}
+
+	if rbo.Sort != "" {
+		params.Add("sort", rbo.Sort)
+	}
+
+	if rbo.PageNum > 0 {
+		params.Add("page", strconv.Itoa(rbo.PageNum))
+	}
+
+	if rbo.Pagelen > 0 {
+		params.Add("pagelen", strconv.Itoa(rbo.Pagelen))
+	}
+
+	urlStr := r.c.requestUrl("/repositories/%s/%s/refs?%s", rbo.Owner, rbo.RepoSlug, params.Encode())
+	response, err := r.c.executeRaw("GET", urlStr, "")
+	if err != nil {
+		return nil, err
+	}
+
+	return decodeRepositoryBranches(response)
+}
+
 func (r *Repository) ListBranches(rbo *RepositoryBranchOptions) (*RepositoryBranches, error) {
 
 	params := url.Values{}
