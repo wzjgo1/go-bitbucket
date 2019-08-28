@@ -1,4 +1,4 @@
-module github.com/wzjgo1/go-bitbucket
+module go-bitbucket
 
 go 1.12
 

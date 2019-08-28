@@ -26,7 +26,7 @@ package main
 import (
         "fmt"
 
-        "github.com/ktrysmt/go-bitbucket" 
+        "go-bitbucket" 
 )
 
 func main() {
