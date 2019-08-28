@@ -1,9 +1,10 @@
 package tests
 
 import (
-	"go-bitbucket"
 	"reflect"
 	"testing"
+
+	"github.com/wzjgo1/go-bitbucket"
 )
 
 func TestClientNewBasicAuth(t *testing.T) {
