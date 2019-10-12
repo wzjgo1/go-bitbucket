@@ -2,6 +2,7 @@ package bitbucket
 
 import (
 	"encoding/json"
+	"strconv"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -31,8 +32,14 @@ func (r *Repositories) ListForAccount(ro *RepositoriesOptions) (*RepositoriesRes
 	urlStr := r.c.requestUrl("/repositories/%s", ro.Owner)
 	if ro.Role != "" {
 		urlStr += "?role=" + ro.Role
+		if ro.Page > 1 {
+			urlStr += "&page=" + strconv.Itoa(int(ro.Page))
+		}
 	}
-	repos, err := r.c.execute("GET", urlStr, "")
+	if ro.Page > 1 {
+		urlStr += "?page=" + strconv.Itoa(int(ro.Page))
+	}
+	repos, err := r.c.executeRaw("GET", urlStr, "")
 	if err != nil {
 		return nil, err
 	}
@@ -43,6 +50,12 @@ func (r *Repositories) ListForTeam(ro *RepositoriesOptions) (*RepositoriesRes, e
 	urlStr := r.c.requestUrl("/repositories/%s", ro.Owner)
 	if ro.Role != "" {
 		urlStr += "?role=" + ro.Role
+		if ro.Page > 1 {
+			urlStr += "&page=" + strconv.Itoa(int(ro.Page))
+		}
+	}
+	if ro.Page > 1 {
+		urlStr += "?page=" + strconv.Itoa(int(ro.Page))
 	}
 	repos, err := r.c.executeRaw("GET", urlStr, "")
 	if err != nil {
@@ -51,9 +64,9 @@ func (r *Repositories) ListForTeam(ro *RepositoriesOptions) (*RepositoriesRes, e
 	return decodeRepositorys(repos)
 }
 
-func (r *Repositories) ListPublic() (interface{}, error) {
+func (r *Repositories) ListPublic() (*RepositoriesRes, error) {
 	urlStr := r.c.requestUrl("/repositories/", "")
-	repos, err := r.c.execute("GET", urlStr, "")
+	repos, err := r.c.executeRaw("GET", urlStr, "")
 	if err != nil {
 		return nil, err
 	}
