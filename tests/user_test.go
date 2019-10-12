@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"go-bitbucket"
+	"github.com/wzjgo1/go-bitbucket"
 )
 
 func TestProfile(t *testing.T) {
