@@ -2,6 +2,7 @@ package bitbucket
 
 import (
 	"encoding/json"
+	"strconv"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -31,8 +32,15 @@ func (r *Repositories) ListForAccount(ro *RepositoriesOptions) (*RepositoriesRes
 	urlStr := r.c.requestUrl("/repositories/%s", ro.Owner)
 	if ro.Role != "" {
 		urlStr += "?role=" + ro.Role
+		if ro.Page > 1 {
+			urlStr += "&page=" + strconv.Itoa(int(ro.Page))
+		}
+	} else {
+		if ro.Page > 1 {
+			urlStr += "?page=" + strconv.Itoa(int(ro.Page))
+		}
 	}
-	repos, err := r.c.execute("GET", urlStr, "")
+	repos, err := r.c.executeRaw("GET", urlStr, "")
 	if err != nil {
 		return nil, err
 	}
@@ -43,6 +51,13 @@ func (r *Repositories) ListForTeam(ro *RepositoriesOptions) (*RepositoriesRes, e
 	urlStr := r.c.requestUrl("/repositories/%s", ro.Owner)
 	if ro.Role != "" {
 		urlStr += "?role=" + ro.Role
+		if ro.Page > 1 {
+			urlStr += "&page=" + strconv.Itoa(int(ro.Page))
+		}
+	} else {
+		if ro.Page > 1 {
+			urlStr += "?page=" + strconv.Itoa(int(ro.Page))
+		}
 	}
 	repos, err := r.c.executeRaw("GET", urlStr, "")
 	if err != nil {

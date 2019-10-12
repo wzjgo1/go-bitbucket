@@ -19,14 +19,19 @@ type Project struct {
 type Repository struct {
 	c *Client `json:"-"`
 
-	Project     Project                `json:"project"`
-	Slug        string                 `json:"slug"`
-	Full_name   string                 `json:"fullName"`
-	Description string                 `json:"description"`
-	ForkPolicy  string                 `json:"forkPolicy"`
-	Type        string                 `json:"type"`
-	Owner       map[string]interface{} `json:"owner"`
-	Links       map[string]interface{} `json:"links"`
+	Project     Project `json:"project"`
+	Slug        string  `json:"slug"`
+	Full_name   string  `json:"fullName"`
+	Description string  `json:"description"`
+	ForkPolicy  string  `json:"forkPolicy"`
+	Type        string  `json:"type"`
+	// Owner       map[string]interface{} `json:"owner"`
+	Links struct {
+		Clone []struct {
+			Href string `json:"href"`
+			Name string `json:"name"`
+		} `json:"clone"`
+	} `json:"links"`
 }
 
 type RepositoryFile struct {
