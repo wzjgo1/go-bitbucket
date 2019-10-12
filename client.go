@@ -22,7 +22,7 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-const DEFAULT_PAGE_LENGTH = 10
+const DEFAULT_PAGE_LENGTH = 100
 
 type Client struct {
 	Auth         *auth
@@ -141,6 +141,20 @@ func injectClient(a *auth) *Client {
 }
 
 func (c *Client) executeRaw(method string, urlStr string, text string) ([]byte, error) {
+	// Use pagination if changed from default value
+	const DEC_RADIX = 10
+	if strings.Contains(urlStr, "/repositories/") {
+		if c.Pagelen != DEFAULT_PAGE_LENGTH {
+			urlObj, err := url.Parse(urlStr)
+			if err != nil {
+				return nil, err
+			}
+			q := urlObj.Query()
+			q.Set("pagelen", strconv.FormatUint(c.Pagelen, DEC_RADIX))
+			urlObj.RawQuery = q.Encode()
+			urlStr = urlObj.String()
+		}
+	}
 	body := strings.NewReader(text)
 
 	req, err := http.NewRequest(method, urlStr, body)
